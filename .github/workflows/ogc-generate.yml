@@ -1,0 +1,57 @@
+# name: ogc-generate
+
+# on:
+#   schedule:
+#     - cron:  '0 0 * * *'
+
+# jobs:
+#   ci:
+#     runs-on: ${{ matrix.os }}
+
+#     strategy:
+#       matrix:
+#         os: [ubuntu-latest]
+
+#     steps:
+#       - uses: volta-cli/action@v1
+
+#       - name: checkout
+#         uses: actions/checkout@master
+
+#       - name: checkout API Repository
+#         uses: actions/checkout@v2
+#         with:
+#           repository: 052hide/public-connect-repo-sample-api
+#           ref: main
+#           path: public-connect-repo-sample-api
+#           ssh-key: ${{ secrets.PUBLIC_CONNECT_REPO_SAMPLE_API_DEPLOY_KEY }}
+
+#       - name: copy schema.yml
+#         run: cp public-connect-repo-sample-api/schema.yml schema.yml
+
+#       - name: Setup node env
+#         uses: actions/setup-node@v2.4.1
+#         with:
+#           node-version: ${{ matrix.node }}
+#           check-latest: true
+#           cache: yarn
+
+#       - name: install dependencies
+#         run: yarn
+
+#       - name: run open api generator
+#         run: yarn run ogc:generate
+
+#       - name: clean public-connect-repo-sample-api
+#         run: rm -rf public-connect-repo-sample-api
+
+#       - name: create PR
+#         uses: peter-evans/create-pull-request@v3
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+#           commit-message: '[schedule] openapi generator generate'
+#           branch: chore/api_gen
+#           branch-suffix: timestamp
+#           delete-branch: true
+#           title: '[schedule] openapi generator generate'
